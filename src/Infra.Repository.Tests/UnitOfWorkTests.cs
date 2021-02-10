@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PapoDeDev.TDD.Domain.Core.Entity;
-using PapoDeDev.TDD.Infra.Repository;
+using PapoDeDev.TDD.Infra.Repository.Tests.Fixtures;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

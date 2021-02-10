@@ -5,7 +5,7 @@ using PapoDeDev.TDD.Domain.Core.Interfaces.Repository;
 using PapoDeDev.TDD.Infra.Repository;
 using System;
 
-namespace PapoDeDev.TDD.Infra.Repository.Tests
+namespace PapoDeDev.TDD.Infra.Repository.Tests.Fixtures
 {
     public class DependencyInjectionFixture
     {

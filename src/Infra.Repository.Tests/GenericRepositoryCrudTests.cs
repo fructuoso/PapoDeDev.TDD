@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PapoDeDev.TDD.Domain.Core.Entity;
 using PapoDeDev.TDD.Domain.Core.Interfaces.Repository;
+using PapoDeDev.TDD.Infra.Repository.Tests.Fixtures;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,26 +9,30 @@ using Xunit;
 
 namespace PapoDeDev.TDD.Infra.Repository.Tests
 {
-    public class GenericRepositoryCrudTests : IClassFixture<DependencyInjectionFixture>
+    public class GenericRepositoryCrudTests : IClassFixture<DependencyInjectionFixture>,
+                                              IClassFixture<DeveloperFixture>
     {
         private readonly GenericRepositoryCrud<Guid, Developer> _Repository;
         private readonly IUnitOfWork _UnitOfWork;
         private readonly RepositoryContext _Context;
+        private readonly DeveloperFixture _DeveloperFixture;
 
-        public GenericRepositoryCrudTests(DependencyInjectionFixture fixture)
+        public GenericRepositoryCrudTests(DependencyInjectionFixture dependencyInjectionFixture, DeveloperFixture developerFixture)
         {
-            IServiceProvider serviceProvider = fixture._ServiceProvider;
+            IServiceProvider serviceProvider = dependencyInjectionFixture._ServiceProvider;
 
             _Repository = serviceProvider.GetService<GenericRepositoryCrud<Guid, Developer>>();
             _UnitOfWork = serviceProvider.GetService<IUnitOfWork>();
             _Context = serviceProvider.GetService<RepositoryContext>();
+
+            _DeveloperFixture = developerFixture;
         }
 
         [Fact(DisplayName = "DADO um Developer QUANDO o mesmo for persistido no repositório ENTÃO um Id deve ser gerado automaticamente")]
         public async Task AddDeveloper()
         {
             //Arrange
-            Developer developer = new Developer() { FirstName = "Victor", LastName = "Fructuoso" };
+            Developer developer = _DeveloperFixture.CreateValid();
             
             //Act
             await _Repository.AddAsync(developer);
